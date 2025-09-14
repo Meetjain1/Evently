@@ -15,16 +15,16 @@ interface DecodedToken {
 // Interface for extended Express Request
 export interface AuthRequest extends Request {
   user?: User;
+  body: any;
+  params: any;
+  query: any;
+  path: string;
+  headers: any;
 }
 
 // Authentication middleware
 export const authenticate = async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
-    // Skip authentication for popular events endpoint
-    if (req.path === '/analytics/events/popular') {
-      return next();
-    }
-
     // Get token from Authorization header
     const authHeader = req.headers.authorization;
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
