@@ -22,8 +22,8 @@ export const AppDataSource = new DataSource({
   database: process.env.DATABASE_URL ? undefined : config.database.database,
   entities: [User, Event, Booking, Venue, Seat, BookedSeat, WaitlistEntry],
   migrations: [path.join(__dirname, '../database/migrations/*.{js,ts}')],
-  synchronize: process.env.NODE_ENV === 'production' ? false : true, // Only sync in dev
-  logging: process.env.NODE_ENV === 'production' ? false : true,
+  synchronize: true, // Enable sync to create tables initially
+  logging: process.env.NODE_ENV === 'production' ? ['error', 'warn', 'migration'] : true,
   ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
   // Add connection retry options
   connectTimeoutMS: 30000, // 30 seconds

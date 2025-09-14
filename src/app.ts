@@ -173,6 +173,11 @@ class App {
       
       await AppDataSource.initialize();
       logger.info('Database connected successfully');
+      
+      // Log table creation/synchronization in production
+      if (process.env.NODE_ENV === 'production') {
+        logger.info('Database synchronization enabled - tables will be created if they do not exist');
+      }
     } catch (error) {
       logger.error('Database connection error:', error);
       if (process.env.NODE_ENV !== 'production') {
