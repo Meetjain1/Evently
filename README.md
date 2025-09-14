@@ -130,6 +130,42 @@ The complete API documentation is available through Swagger at `/api-docs`.
 - `GET /api/analytics/events` - Get event popularity metrics
 - `GET /api/analytics/utilization` - Get capacity utilization data
 
+## Deployment on Render
+
+### Prerequisites
+1. Create a Render account at [render.com](https://render.com)
+2. Set up a PostgreSQL database in Render
+
+### Database Setup
+1. Create a PostgreSQL database on Render
+2. Use the **external database URL** for production deployments:
+   - Format: `postgresql://username:password@hostname.render.com/database_name`
+   - Example: `postgresql://evently_db_iszt_user:password@dpg-d33frdgdl3ps738rr4dg-a.singapore-postgres.render.com/evently_db_iszt`
+
+### Environment Variables
+Set the following environment variables in your Render web service:
+
+```
+NODE_ENV=production
+DATABASE_URL=your-external-postgresql-url
+PORT=10000
+JWT_SECRET=your-jwt-secret
+JWT_EXPIRY=1d
+```
+
+### Deployment Steps
+1. Connect your GitHub repository to Render
+2. Choose "Web Service" as the type
+3. Set build command: `npm install && npm run build`
+4. Set start command: `npm start`
+5. Add the environment variables listed above
+6. Deploy the service
+
+### Troubleshooting
+- If you encounter CORS issues, they should be fixed with the current configuration
+- If database connection issues persist, verify the DATABASE_URL is using the external PostgreSQL URL from Render
+- Check Render logs for any other deployment issues
+
 ## License
 
 This project is licensed under the ISC License.
