@@ -118,7 +118,8 @@ class App {
   public listen() {
     const port = config.port || 3000;
     
-    this.app.listen(port, () => {
+    // Listen on 0.0.0.0 to make the app accessible outside the container
+    this.app.listen(port, '0.0.0.0', () => {
       logger.info(`Server running on port ${port}`);
       logger.info(`API Documentation available at http://${config.env === 'production' ? 'your-app-url' : 'localhost:' + port}/api-docs`);
     });

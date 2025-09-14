@@ -8,6 +8,8 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
+      - key: RENDER
+        value: true
       - key: PORT
         value: 3000
       - key: API_PREFIX

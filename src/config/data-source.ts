@@ -20,8 +20,8 @@ export const AppDataSource = new DataSource({
   database: process.env.DATABASE_URL ? undefined : config.database.database,
   entities: [User, Event, Booking, Venue, Seat, BookedSeat, WaitlistEntry],
   migrations: [path.join(__dirname, '../database/migrations/*.{js,ts}')],
-  synchronize: config.env === 'development',
-  logging: config.env === 'development',
+  synchronize: process.env.NODE_ENV === 'production' ? false : true, // Only sync in dev
+  logging: process.env.NODE_ENV === 'production' ? false : true,
   ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
 });
 

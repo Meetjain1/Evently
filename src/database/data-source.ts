@@ -10,8 +10,8 @@ export const AppDataSource = new DataSource({
   username: process.env.DATABASE_URL ? undefined : config.database.username,
   password: process.env.DATABASE_URL ? undefined : config.database.password,
   database: process.env.DATABASE_URL ? undefined : config.database.database,
-  synchronize: false, // Set to false in production to avoid data loss
-  logging: config.env === 'development',
+  synchronize: process.env.NODE_ENV === 'production' ? false : true, // Only sync in dev
+  logging: process.env.NODE_ENV === 'production' ? false : true,
   entities: [path.join(__dirname, '..', 'models', '*.{js,ts}')],
   migrations: [path.join(__dirname, 'migrations', '*.{js,ts}')],
   subscribers: [],
