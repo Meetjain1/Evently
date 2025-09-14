@@ -32,13 +32,13 @@ export class WaitlistEntry {
   })
   status: WaitlistStatus;
 
-  @Column({ type: 'int' })
+  @Column({ type: 'integer' })
   position: number;
 
   @Column({ type: 'timestamp', nullable: true })
   notifiedAt: Date;
 
-  @Column({ type: 'int' })
+  @Column({ type: 'integer' })
   numberOfTickets: number;
 
   @ManyToOne(() => User, (user) => user.waitlistEntries)

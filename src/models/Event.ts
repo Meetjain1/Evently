@@ -35,17 +35,17 @@ export class Event {
   @Column({ type: 'text' })
   description: string;
 
-  @Column({ type: 'datetime' })
+  @Column({ type: 'timestamp' })
   @Index()
   startDate: Date;
 
-  @Column({ type: 'datetime' })
+  @Column({ type: 'timestamp' })
   endDate: Date;
 
-  @Column({ type: 'int' })
+  @Column({ type: 'integer' })
   capacity: number;
 
-  @Column({ type: 'int', default: 0 })
+  @Column({ type: 'integer', default: 0 })
   bookedSeats: number;
 
   @Column({ type: 'boolean', default: false })
@@ -58,13 +58,13 @@ export class Event {
   })
   status: EventStatus;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2 })
+  @Column({ type: 'numeric', precision: 10, scale: 2 })
   ticketPrice: number;
 
   @Column({ type: 'boolean', default: false })
   hasWaitlist: boolean;
 
-  @Column({ type: 'int', default: 0 })
+  @Column({ type: 'integer', default: 0 })
   maxWaitlistSize: number;
 
   @Column({ type: 'boolean', default: false })

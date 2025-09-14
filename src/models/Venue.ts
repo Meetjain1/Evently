@@ -37,7 +37,7 @@ export class Venue {
   @Column({ length: 100 })
   country: string;
 
-  @Column({ type: 'int' })
+  @Column({ type: 'integer' })
   totalCapacity: number;
 
   @Column({ type: 'boolean', default: false })

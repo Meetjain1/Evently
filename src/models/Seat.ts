@@ -29,7 +29,7 @@ export class Seat {
   @Column({ length: 10 })
   rowName: string;
 
-  @Column({ type: 'int' })
+  @Column({ type: 'integer' })
   seatNumber: number;
 
   @Column({

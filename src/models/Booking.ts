@@ -24,7 +24,7 @@ export class Booking {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ type: 'int' })
+  @Column({ type: 'integer' })
   numberOfTickets: number;
 
   @Column({
@@ -34,7 +34,7 @@ export class Booking {
   })
   status: BookingStatus;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2 })
+  @Column({ type: 'numeric', precision: 10, scale: 2 })
   totalAmount: number;
 
   @Column({ type: 'text', nullable: true })
