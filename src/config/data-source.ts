@@ -23,6 +23,9 @@ export const AppDataSource = new DataSource({
   synchronize: process.env.NODE_ENV === 'production' ? false : true, // Only sync in dev
   logging: process.env.NODE_ENV === 'production' ? false : true,
   ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
+  // Add connection retry options
+  connectTimeoutMS: 30000, // 30 seconds
+  maxQueryExecutionTime: 10000, // 10 seconds
 });
 
 export default AppDataSource;

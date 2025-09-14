@@ -103,6 +103,14 @@ class App {
         return;
       }
       
+      // Log the current database URL (with password masked)
+      if (process.env.DATABASE_URL) {
+        const maskedUrl = process.env.DATABASE_URL.replace(/\/\/([^:]+):([^@]+)@/, '//***:***@');
+        logger.info(`Connecting to database with URL: ${maskedUrl}`);
+      } else {
+        logger.info(`Connecting to database at ${config.database.host}:${config.database.port}`);
+      }
+      
       await AppDataSource.initialize();
       logger.info('Database connected successfully');
     } catch (error) {
