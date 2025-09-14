@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "A scalable event booking platform backend",
   "main": "dist/index.js",
+  "engines": {
+    "node": ">=14.0.0"
+  },
   "scripts": {
     "build": "tsc",
     "start": "node dist/index.js",
@@ -15,7 +18,8 @@
     "migration:run": "npm run typeorm -- migration:run",
     "migration:revert": "npm run typeorm -- migration:revert",
     "seed": "ts-node src/database/seeds/index.ts",
-    "seed-dev-data": "ts-node dev-scripts/seed-dev-data.ts"
+    "seed-dev-data": "ts-node dev-scripts/seed-dev-data.ts",
+    "postinstall": "npm run build"
   },
   "keywords": [
     "event",

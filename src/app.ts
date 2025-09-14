@@ -63,8 +63,10 @@ class App {
         },
         servers: [
           {
-            url: 'http://localhost:3000',
-            description: 'Development Server',
+            url: process.env.NODE_ENV === 'production' 
+              ? 'https://evently-api.onrender.com' 
+              : `http://localhost:${config.port}`,
+            description: process.env.NODE_ENV === 'production' ? 'Production Server' : 'Development Server',
           },
         ],
         components: {
@@ -113,12 +115,16 @@ class App {
   }
 
   public listen() {
-    // Check if port 3000 is available, if not, try to free it
-    ensurePort3000IsAvailable();
+    const port = config.port || 3000;
     
-    this.app.listen(3000, 'localhost', () => {
-      logger.info('Server running on port 3000');
-      logger.info('API Documentation available at http://localhost:3000/api-docs');
+    // Only check port in development environment
+    if (config.env === 'development') {
+      ensurePort3000IsAvailable();
+    }
+    
+    this.app.listen(port, () => {
+      logger.info(`Server running on port ${port}`);
+      logger.info(`API Documentation available at http://${config.env === 'production' ? 'your-app-url' : 'localhost:' + port}/api-docs`);
     });
   }
 }

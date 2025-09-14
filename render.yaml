@@ -1,0 +1,38 @@
+services:
+  - type: web
+    name: evently-api
+    env: node
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: API_PREFIX
+        value: /api
+      - key: JWT_SECRET
+        fromGroup: evently-secrets
+      - key: JWT_EXPIRES_IN
+        value: 24h
+      - key: DB_HOST
+        fromGroup: evently-db
+      - key: DB_PORT
+        fromGroup: evently-db
+      - key: DB_USERNAME
+        fromGroup: evently-db
+      - key: DB_PASSWORD
+        fromGroup: evently-db
+      - key: DB_DATABASE
+        fromGroup: evently-db
+      - key: RATE_LIMIT_WINDOW_MS
+        value: 15 * 60 * 1000
+      - key: RATE_LIMIT_MAX
+        value: 100
+      - key: LOG_LEVEL
+        value: info
+
+databases:
+  - name: evently-mysql
+    plan: standard

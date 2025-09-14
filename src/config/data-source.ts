@@ -23,6 +23,7 @@ export const AppDataSource = new DataSource({
   logging: config.env === 'development',
   poolSize: 10, 
   connectTimeout: 20000,
+  ssl: config.env === 'production' ? { rejectUnauthorized: true } : false,
 });
 
 export default AppDataSource;
