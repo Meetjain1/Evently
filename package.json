@@ -19,6 +19,7 @@
     "migration:revert": "npm run typeorm -- migration:revert",
     "seed": "ts-node src/database/seeds/index.ts",
     "seed-dev-data": "ts-node dev-scripts/seed-dev-data.ts",
+    "convert-schema": "ts-node dev-scripts/convert-schema-to-postgres.ts",
     "postinstall": "npm run build"
   },
   "keywords": [
@@ -42,7 +43,7 @@
     "joi": "^17.9.2",
     "jsonwebtoken": "^9.0.0",
     "morgan": "^1.10.0",
-    "mysql2": "^3.3.1",
+    "pg": "^8.11.3",
     "reflect-metadata": "^0.1.13",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^4.6.3",

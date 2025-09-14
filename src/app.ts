@@ -11,7 +11,8 @@ import { errorHandler } from './middlewares/error.middleware';
 import { apiRateLimiter } from './middlewares/rate-limiter.middleware';
 import logger from './utils/logger';
 import { AppDataSource } from './config/data-source';
-import { ensurePort3000IsAvailable } from './utils/port-check';
+// Remove dependency on port check
+// import { ensurePort3000IsAvailable } from './utils/port-check';
 
 class App {
   public app: Express;
@@ -64,7 +65,7 @@ class App {
         servers: [
           {
             url: process.env.NODE_ENV === 'production' 
-              ? 'https://evently-api.onrender.com' 
+              ? process.env.RENDER_EXTERNAL_URL || 'https://evently-api.onrender.com' 
               : `http://localhost:${config.port}`,
             description: process.env.NODE_ENV === 'production' ? 'Production Server' : 'Development Server',
           },
@@ -116,11 +117,6 @@ class App {
 
   public listen() {
     const port = config.port || 3000;
-    
-    // Only check port in development environment
-    if (config.env === 'development') {
-      ensurePort3000IsAvailable();
-    }
     
     this.app.listen(port, () => {
       logger.info(`Server running on port ${port}`);

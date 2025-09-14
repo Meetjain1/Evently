@@ -13,19 +13,13 @@ services:
       - key: API_PREFIX
         value: /api
       - key: JWT_SECRET
-        fromGroup: evently-secrets
+        generateValue: true
       - key: JWT_EXPIRES_IN
         value: 24h
-      - key: DB_HOST
-        fromGroup: evently-db
-      - key: DB_PORT
-        fromGroup: evently-db
-      - key: DB_USERNAME
-        fromGroup: evently-db
-      - key: DB_PASSWORD
-        fromGroup: evently-db
-      - key: DB_DATABASE
-        fromGroup: evently-db
+      - key: DATABASE_URL
+        fromDatabase:
+          name: evently-db
+          property: connectionString
       - key: RATE_LIMIT_WINDOW_MS
         value: 15 * 60 * 1000
       - key: RATE_LIMIT_MAX
@@ -34,5 +28,6 @@ services:
         value: info
 
 databases:
-  - name: evently-mysql
-    plan: standard
+  - name: evently-db
+    plan: free
+    ipAllowList: [] # allow all connections

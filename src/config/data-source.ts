@@ -11,19 +11,18 @@ import { WaitlistEntry } from '../models/WaitlistEntry';
 
 // Create a new DataSource (TypeORM 0.3.x)
 export const AppDataSource = new DataSource({
-  type: 'mysql',
-  host: config.database.host,
-  port: config.database.port,
-  username: config.database.username,
-  password: config.database.password,
-  database: config.database.database,
+  type: 'postgres',
+  url: process.env.DATABASE_URL, // For Render PostgreSQL
+  host: process.env.DATABASE_URL ? undefined : config.database.host,
+  port: process.env.DATABASE_URL ? undefined : config.database.port,
+  username: process.env.DATABASE_URL ? undefined : config.database.username,
+  password: process.env.DATABASE_URL ? undefined : config.database.password,
+  database: process.env.DATABASE_URL ? undefined : config.database.database,
   entities: [User, Event, Booking, Venue, Seat, BookedSeat, WaitlistEntry],
   migrations: [path.join(__dirname, '../database/migrations/*.{js,ts}')],
   synchronize: config.env === 'development',
   logging: config.env === 'development',
-  poolSize: 10, 
-  connectTimeout: 20000,
-  ssl: config.env === 'production' ? { rejectUnauthorized: true } : false,
+  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
 });
 
 export default AppDataSource;
