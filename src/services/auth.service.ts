@@ -28,30 +28,46 @@ export class AuthService {
   private userRepository = AppDataSource.getRepository(User);
 
   async register(input: RegisterUserInput) {
-    // Check if user already exists
-    const existingUser = await this.userRepository.findOne({
-      where: { email: input.email },
-    });
+    try {
+      // Log the registration attempt
+      console.log('Registration attempt for email:', input.email);
+      
+      // Check if database connection is active
+      if (!AppDataSource.isInitialized) {
+        throw new Error('Database not initialized');
+      }
 
-    if (existingUser) {
-      throw new ConflictError('User with this email already exists');
+      // Check if user already exists
+      const existingUser = await this.userRepository.findOne({
+        where: { email: input.email },
+      });
+
+      if (existingUser) {
+        throw new ConflictError('User with this email already exists');
+      }
+
+      // Create user with correct role handling
+      const { role, ...rest } = input;
+      const user = this.userRepository.create({
+        ...rest,
+        role: role === 'admin' ? UserRole.ADMIN : UserRole.USER,
+      });
+      
+      console.log('Saving user to database...');
+      await this.userRepository.save(user);
+      console.log('User saved successfully');
+
+      // Generate token
+      const token = generateToken(user);
+
+      return {
+        token,
+        user: sanitizeUser(user),
+      };
+    } catch (error) {
+      console.error('Registration error:', error);
+      throw error;
     }
-
-    // Create user with correct role handling
-    const { role, ...rest } = input;
-    const user = this.userRepository.create({
-      ...rest,
-      role: role === 'admin' ? UserRole.ADMIN : UserRole.USER,
-    });
-    await this.userRepository.save(user);
-
-    // Generate token
-    const token = generateToken(user);
-
-    return {
-      token,
-      user: sanitizeUser(user),
-    };
   }
 
   async login(input: LoginInput) {

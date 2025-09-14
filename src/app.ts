@@ -69,8 +69,31 @@ class App {
     this.app.use(config.apiPrefix, routes);
     
     // Health check endpoint
-    this.app.get('/health', (req: Request, res: Response) => {
-      res.status(200).json({ status: 'UP', message: 'Server is running' });
+    this.app.get('/health', async (req: Request, res: Response) => {
+      try {
+        // Check database connection
+        if (AppDataSource.isInitialized) {
+          await AppDataSource.query('SELECT 1');
+          res.status(200).json({ 
+            status: 'UP', 
+            message: 'Server is running',
+            database: 'Connected'
+          });
+        } else {
+          res.status(503).json({ 
+            status: 'DOWN', 
+            message: 'Database not initialized',
+            database: 'Disconnected'
+          });
+        }
+      } catch (error) {
+        res.status(503).json({ 
+          status: 'DOWN', 
+          message: 'Database connection failed',
+          database: 'Error',
+          error: process.env.NODE_ENV === 'development' ? (error as Error).message : undefined
+        });
+      }
     });
 
     // Handle 404
