@@ -35,7 +35,7 @@ export class WaitlistEntry {
   @Column({ type: 'int' })
   position: number;
 
-  @Column({ type: 'datetime', nullable: true })
+  @Column({ type: 'timestamp', nullable: true })
   notifiedAt: Date;
 
   @Column({ type: 'int' })

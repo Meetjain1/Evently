@@ -26,14 +26,24 @@ class App {
   }
 
   private initializeMiddlewares() {
-    this.app.use(helmet({
-      crossOriginResourcePolicy: { policy: "cross-origin" }
-    }));
+    // CORS must be enabled before other middleware
     this.app.use(cors({
-      origin: '*', // Allow all origins
+      origin: true, // Reflect the request origin
+      credentials: true,
       methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-      allowedHeaders: ['Content-Type', 'Authorization', 'Accept']
+      allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'Origin', 'X-Requested-With']
     }));
+    
+    // Add preflight handling for all routes
+    this.app.options('*', cors());
+    
+    // Configure helmet with relaxed settings for development
+    this.app.use(helmet({
+      crossOriginResourcePolicy: { policy: "cross-origin" },
+      contentSecurityPolicy: false,
+      crossOriginEmbedderPolicy: false
+    }));
+    
     this.app.use(compression());
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
@@ -42,6 +52,20 @@ class App {
   }
 
   private initializeRoutes() {
+    // Middleware to handle preflight requests and set CORS headers
+    this.app.use((req: Request, res: Response, next: NextFunction) => {
+      res.header('Access-Control-Allow-Origin', '*');
+      res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS, PATCH');
+      res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With, Accept');
+      
+      // Handle preflight requests
+      if (req.method === 'OPTIONS') {
+        return res.status(200).send();
+      }
+      
+      next();
+    });
+    
     this.app.use(config.apiPrefix, routes);
     
     // Health check endpoint
@@ -95,7 +119,14 @@ class App {
     };
 
     const specs = swaggerJsDoc(options);
-    this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs, { explorer: true }));
+    
+    // Add CORS headers specifically for Swagger docs
+    this.app.use('/api-docs', (req: Request, res: Response, next: NextFunction) => {
+      res.header('Access-Control-Allow-Origin', '*');
+      res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS');
+      res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+      next();
+    }, swaggerUi.serve, swaggerUi.setup(specs, { explorer: true }));
   }
 
   private initializeErrorHandling() {
