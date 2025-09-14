@@ -26,8 +26,14 @@ class App {
   }
 
   private initializeMiddlewares() {
-    this.app.use(helmet());
-    this.app.use(cors());
+    this.app.use(helmet({
+      crossOriginResourcePolicy: { policy: "cross-origin" }
+    }));
+    this.app.use(cors({
+      origin: '*', // Allow all origins
+      methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+      allowedHeaders: ['Content-Type', 'Authorization', 'Accept']
+    }));
     this.app.use(compression());
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
@@ -65,7 +71,7 @@ class App {
         servers: [
           {
             url: process.env.NODE_ENV === 'production' 
-              ? process.env.RENDER_EXTERNAL_URL || 'https://evently-api.onrender.com' 
+              ? process.env.RENDER_EXTERNAL_URL || 'https://evently-om2i.onrender.com' 
               : `http://localhost:${config.port}`,
             description: process.env.NODE_ENV === 'production' ? 'Production Server' : 'Development Server',
           },
