@@ -76,6 +76,7 @@
  *             properties:
  *               eventId:
  *                 type: string
+ *                 format: uuid
  *               numberOfTickets:
  *                 type: integer
  *                 minimum: 1
@@ -83,7 +84,12 @@
  *                 type: array
  *                 items:
  *                   type: string
+ *                   format: uuid
  *                 description: Required for events with assigned seating
+ *           example:
+ *             eventId: "550e8400-e29b-41d4-a716-446655440000"
+ *             numberOfTickets: 2
+ *             seatIds: ["660e8400-e29b-41d4-a716-446655440001", "660e8400-e29b-41d4-a716-446655440002"]
  *     responses:
  *       201:
  *         description: Booking created successfully

@@ -10,7 +10,7 @@ export enum UserRole {
   ADMIN = 'admin',
 }
 
-@Entity('user') // Match the actual table name in MySQL
+@Entity('users')
 export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;

@@ -38,6 +38,16 @@
  *                 type: string
  *                 format: password
  *                 minLength: 8
+ *               role:
+ *                 type: string
+ *                 enum: [user, admin, organizer]
+ *                 default: user
+ *           example:
+ *             firstName: "Meet"
+ *             lastName: "Jain"
+ *             email: "meet.jain@example.com"
+ *             password: "StrongPass123"
+ *             role: "user"
  *     responses:
  *       201:
  *         description: User registered successfully

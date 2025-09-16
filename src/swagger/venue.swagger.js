@@ -64,23 +64,47 @@
  *             properties:
  *               name:
  *                 type: string
+ *                 minLength: 3
+ *                 maxLength: 100
  *               address:
  *                 type: string
+ *                 minLength: 5
+ *                 maxLength: 200
  *               city:
  *                 type: string
+ *                 minLength: 2
+ *                 maxLength: 100
  *               state:
  *                 type: string
+ *                 minLength: 2
+ *                 maxLength: 100
  *               zipCode:
  *                 type: string
+ *                 minLength: 5
+ *                 maxLength: 20
  *               country:
  *                 type: string
+ *                 minLength: 2
+ *                 maxLength: 100
  *               totalCapacity:
  *                 type: integer
+ *                 minimum: 1
  *               hasSeating:
  *                 type: boolean
  *                 default: false
  *               description:
  *                 type: string
+ *                 nullable: true
+ *           example:
+ *             name: "Grand Convention Center"
+ *             address: "123 Main Street"
+ *             city: "Indore"
+ *             state: "Madhya Pradesh"
+ *             zipCode: "452001"
+ *             country: "India"
+ *             totalCapacity: 1500
+ *             hasSeating: true
+ *             description: "A modern convention center with state-of-the-art facilities and flexible seating arrangements."
  *     responses:
  *       201:
  *         description: Venue created successfully

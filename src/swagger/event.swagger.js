@@ -80,11 +80,14 @@
  *                 format: date-time
  *               venueId:
  *                 type: string
+ *                 format: uuid
  *               capacity:
  *                 type: integer
+ *                 minimum: 1
  *               ticketPrice:
  *                 type: number
  *                 format: float
+ *                 minimum: 0
  *               hasWaitlist:
  *                 type: boolean
  *                 default: false
@@ -94,6 +97,26 @@
  *               hasSeating:
  *                 type: boolean
  *                 default: false
+ *               isFeatured:
+ *                 type: boolean
+ *                 default: false
+ *               status:
+ *                 type: string
+ *                 enum: [draft, published, cancelled, completed]
+ *                 default: draft
+ *           example:
+ *             name: "Tech Conference 2025"
+ *             description: "Annual technology conference featuring the latest innovations and industry trends."
+ *             startDate: "2025-12-15T09:00:00.000Z"
+ *             endDate: "2025-12-15T18:00:00.000Z"
+ *             venueId: "550e8400-e29b-41d4-a716-446655440000"
+ *             capacity: 500
+ *             ticketPrice: 149.99
+ *             hasWaitlist: true
+ *             maxWaitlistSize: 100
+ *             hasSeating: false
+ *             isFeatured: true
+ *             status: "draft"
  *     responses:
  *       201:
  *         description: Event created successfully

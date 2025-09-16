@@ -19,10 +19,15 @@
  *             properties:
  *               eventId:
  *                 type: string
+ *                 format: uuid
  *                 description: ID of the event
  *               numberOfTickets:
  *                 type: integer
+ *                 minimum: 1
  *                 description: Number of tickets requested
+ *           example:
+ *             eventId: "550e8400-e29b-41d4-a716-446655440000"
+ *             numberOfTickets: 3
  *     responses:
  *       201:
  *         description: Successfully added to waitlist

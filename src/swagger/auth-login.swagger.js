@@ -20,6 +20,9 @@
  *               password:
  *                 type: string
  *                 format: password
+ *           example:
+ *             email: "meet.jain@example.com"
+ *             password: "StrongPass123"
  *     responses:
  *       200:
  *         description: Login successful

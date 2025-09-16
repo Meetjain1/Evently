@@ -5,7 +5,7 @@ dotenv.config();
 
 const config = {
   env: process.env.NODE_ENV || 'development',
-  port: 3000, // Always use port 3000
+  port: process.env.PORT ? parseInt(process.env.PORT, 10) : 3000,
   apiPrefix: process.env.API_PREFIX || '/api',
   
   // JWT Configuration
@@ -25,7 +25,7 @@ const config = {
   
   // Rate Limiter Configuration
   rateLimit: {
-    windowMs: process.env.RATE_LIMIT_WINDOW_MS ? parseInt(process.env.RATE_LIMIT_WINDOW_MS, 10) : 15 * 60 * 1000, // 15 minutes by default
+    windowMs: eval(process.env.RATE_LIMIT_WINDOW_MS || '15 * 60 * 1000'), // 15 minutes by default
     max: parseInt(process.env.RATE_LIMIT_MAX || '100', 10), // 100 requests per windowMs by default
   },
   

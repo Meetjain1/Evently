@@ -401,31 +401,25 @@ export class AnalyticsService {
   }
 
   async getPopularEvents(limit = 5) {
-    try {
-      const events = await this.eventRepository
-        .createQueryBuilder('event')
-        .leftJoinAndSelect('event.bookings', 'booking')
-        .leftJoinAndSelect('event.venue', 'venue')
-        .where('event.status = :status', { status: 'published' })
-        .andWhere('event.startDate > :now', { now: new Date() })
-        .orderBy('event.bookedSeats', 'DESC')
-        .take(limit)
-        .getMany();
+    const events = await this.eventRepository
+      .createQueryBuilder('event')
+      .leftJoinAndSelect('event.bookings', 'booking')
+      .leftJoinAndSelect('event.venue', 'venue')
+      .where('event.status = :status', { status: 'published' })
+      .andWhere('event.startDate > :now', { now: new Date() })
+      .orderBy('event.bookedSeats', 'DESC')
+      .take(limit)
+      .getMany();
 
-      return events.map(event => ({
-        id: event.id,
-        name: event.name,
-        venueName: event.venue?.name || 'N/A',
-        startDate: event.startDate,
-        bookedSeats: event.bookedSeats || 0,
-        capacity: event.capacity || 0,
-        utilization: event.capacity ? ((event.bookedSeats || 0) / event.capacity) * 100 : 0,
-      }));
-    } catch (error) {
-      console.error('Error in getPopularEvents:', error);
-      // Return empty array as fallback in case of error
-      return [];
-    }
+    return events.map(event => ({
+      id: event.id,
+      name: event.name,
+      venueName: event.venue?.name || 'N/A',
+      startDate: event.startDate,
+      bookedSeats: event.bookedSeats,
+      capacity: event.capacity,
+      utilization: (event.bookedSeats / event.capacity) * 100,
+    }));
   }
 
   async getBookingTrends(period: 'day' | 'week' | 'month' = 'day', lastN = 30) {
